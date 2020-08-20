@@ -1,0 +1,12 @@
+[package]
+name = "combinatory-logic"
+version = "0.1.0"
+authors = ["Alexander Dikelsky <alexander.dikelsky@gmail.com>"]
+edition = "2018"
+
+[build-dependencies]
+lalrpop = { version = "0.19.0", features = ["lexer"] }
+
+[dependencies]
+lalrpop-util = "0.19.0"
+regex = "1"
