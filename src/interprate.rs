@@ -1,3 +1,4 @@
+use crate::string_utils::tail;
 
 // If there are n more terms, return a vector of those terms
 // Otherwise, return the original string, and None for the vector
@@ -44,7 +45,7 @@ pub fn next_n_terms(n: usize, s: String) -> (Option<Vec<String>>, Option<String>
 // If there are no more terms, return none
 // Otherwise, panic
 pub fn next_term(s: String) -> (String, Option<String>) {
-    dbg!(&s);
+    //dbg!(&s);
     let first_char = s.chars().next();
     match first_char {
         Some(x) => match x {
@@ -79,7 +80,8 @@ fn here_to_next_paren(s: String) -> (String, Option<String>) {
             match c {
                 '(' => { stack = stack + 1; in_parens.push(c) },
                 ')' => { stack = stack - 1; in_parens.push(c) },
-                'A'..='z' => { in_parens.push(c); },
+                'A'..='Z' => { in_parens.push(c); },
+                'a'..='z' => { in_parens.push(c); },
                 _ => panic!("Invalid character in next_paren"),
             }
         } else {
