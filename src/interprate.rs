@@ -4,26 +4,36 @@
 //
 // If there are excess characters, return a string in the second tuple place
 pub fn next_n_terms(n: usize, s: String) -> (Option<Vec<String>>, Option<String>) {
-    let mut v = vec![];
+    let mut terms = vec![];
     let mut none_found = false;
     let mut i = 0;
     let default_str = s.clone();
     let mut cloned_str = s.clone();
 
-    while i < n && !none_found {
-        let a = next_term(cloned_str.clone());
-        v.push(a.0);
 
-        match a.1 {
+    // Loop until just before the last term
+    while i < n-1 && !none_found {
+        let (new_term, rest_of_str) = next_term(cloned_str.clone());
+        terms.push(new_term);
+
+        match rest_of_str {
             Some(x) => { cloned_str = x; },
-            None => { none_found = true; },
+
+            None => { none_found = true },
         }; 
         i += 1;
     }
 
-    match none_found {
-        true  => (None, Some(default_str)),
-        false => (Some(v), Some(cloned_str)),
+    // The last term's next can be None and it is still okay
+    // Also if there wasn't a string to begin with, return None
+
+    if none_found || default_str.is_empty() {
+        (None, Some(default_str))
+    } else {
+        let (new_term, rest_of_str) = next_term(cloned_str.clone());
+        terms.push(new_term);
+        assert!(terms.len() == n, "Wrong terms size");
+        (Some(terms), rest_of_str)
     }
 
 }
@@ -33,15 +43,23 @@ pub fn next_n_terms(n: usize, s: String) -> (Option<Vec<String>>, Option<String>
 // If it is an open paren, return the string between the first paren and the last
 // If there are no more terms, return none
 // Otherwise, panic
-fn next_term(s: String) -> (String, Option<String>) {
-    match s.chars().next() {
+pub fn next_term(s: String) -> (String, Option<String>) {
+    dbg!(&s);
+    let first_char = s.chars().next();
+    match first_char {
         Some(x) => match x {
             '(' => here_to_next_paren(s),
             ')' => panic!("Extra close paren"),
            
             // Note that this allows too many characters, like [ to be used
-            'A'..='z' => (s.chars().next().unwrap().to_string(),
-                                 Some(s.chars().skip(1).collect())),
+            'A'..='z' => (first_char.unwrap().to_string(), { 
+                let stripped = s.strip_prefix(first_char.unwrap()).unwrap();
+                if stripped.is_empty() {
+                    None
+                } else {
+                    Some(stripped.to_string())
+                }
+            }),
             _  => panic!("Invalid character"),
         }
         None => ("".to_string(), None),

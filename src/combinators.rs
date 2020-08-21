@@ -1,10 +1,13 @@
 use crate::interprate::next_n_terms;
 
-// SXYZ => XZ(YZ)
+// Returns the rest of the str applied to S
+//    If there are enough args, applies
+//    Else, returns string including the original S
 #[allow(non_snake_case)]
 pub fn S(s: String) -> String {
     let next_terms = next_n_terms(3, s);
 
+    dbg!(&next_terms);
 
     match next_terms.0 {
         Some(v) => {
@@ -12,7 +15,7 @@ pub fn S(s: String) -> String {
             format!("{x}{z}({y}{z}){r}", x=v[0], y=v[1], z=v[2], r=next_terms.1.unwrap_or_default())
         },
         None => {
-            next_terms.1.unwrap_or_default()
+            "S".to_string() + &next_terms.1.unwrap_or_default()
         }
     }
 }
@@ -21,6 +24,7 @@ pub fn S(s: String) -> String {
 #[allow(non_snake_case)]
 pub fn K(s: String) -> String {
     let next_terms = next_n_terms(2, s);
+    dbg!(&next_terms);
 
     match next_terms.0 {
         Some(v) => {
@@ -28,7 +32,7 @@ pub fn K(s: String) -> String {
             format!("{x}{r}", x=v[0], r=next_terms.1.unwrap_or_default())
         },
         None => {
-            next_terms.1.unwrap_or_default()
+            "K".to_string() + &next_terms.1.unwrap_or_default()
         }
     }
 }
@@ -36,6 +40,7 @@ pub fn K(s: String) -> String {
 #[allow(non_snake_case)]
 pub fn I(s: String) -> String {
     let next_terms = next_n_terms(1, s);
+    dbg!(&next_terms);
 
     match next_terms.0 {
         Some(v) => {
@@ -43,7 +48,7 @@ pub fn I(s: String) -> String {
             format!("{x}{r}", x=v[0], r=next_terms.1.unwrap_or_default())
         },
         None => {
-            next_terms.1.unwrap_or_default()
+            "I".to_string() + &next_terms.1.unwrap_or_default()
         }
     }
 }
