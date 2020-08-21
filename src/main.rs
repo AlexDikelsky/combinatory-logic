@@ -4,21 +4,26 @@ mod tests;
 mod string_utils;
 mod run;
 
-use crate::combinators::{S, K, I};
-use crate::string_utils::delete_matching_paren;
-use crate::run::eval_first;
+use crate::run::eval_sub_ctx;
 
 fn main() {
 
-    let s = "SSSXYZ".to_string();
+    let s = "S(KS)Kxyz".to_string();
 
-    let t = eval_first(s);
+    println!("{}", eval_sub_ctx(s));
 
-    dbg!(&t);
 
-    let u = eval_first(t);
 
-    dbg!(&u);
+
+//    let s = "SSSXYZ".to_string();
+//
+//    let t = eval_first(s);
+//
+//    dbg!(&t);
+//
+//    let u = eval_first(t);
+//
+//    dbg!(&u);
 
 
 }
