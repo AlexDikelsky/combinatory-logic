@@ -14,8 +14,10 @@ pub fn eval_first(s: String) -> String {
             'S' => S(tail.unwrap()),
             'K' => K(tail.unwrap()),
             'I' => I(tail.unwrap()),
+            'B' => "S(KS)K".to_string() + &tail.unwrap(),
             'a'..='z' => cloned,
             'A'..='Z' => cloned,
+            ' ' => "".to_string(),
             _ => panic!("Illegal character"),
         }
         None => {

@@ -56,6 +56,8 @@ pub fn terms_until_none(s: String) -> Vec<String> {
             None => { found = true; }
         }
     }
+
+    //dbg!(&terms);
     terms
 }
 

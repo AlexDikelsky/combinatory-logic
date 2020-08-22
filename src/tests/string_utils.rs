@@ -1,4 +1,4 @@
-use crate::string_utils::{ delete_matching_paren, tail };
+use crate::string_utils::{ delete_matching_paren, tail, has_matching_parens };
 
 #[test]
 fn delete_paren_1() {
@@ -66,4 +66,19 @@ fn tail_3() {
     let expected = None;
 
     assert!(a == expected);
+}
+
+#[test]
+fn match_1() {
+    assert!(!has_matching_parens("("));
+    assert!(!has_matching_parens(")("));
+    assert!(!has_matching_parens("))(()("));
+}
+
+#[test]
+fn match_2() {
+    assert!(has_matching_parens(""));
+    assert!(has_matching_parens("()"));
+    assert!(has_matching_parens("()asdf()ssdf"));
+    assert!(has_matching_parens("(((()    ))()sdfasdfsadf)()"))
 }

@@ -1,0 +1,9 @@
+n = 10
+test benchmarks::bench_recurse_at_end   ... bench: 124,896,702 ns/iter (+/- 1,309,378)
+test benchmarks::bench_recurse_at_start ... bench:  41,658,642 ns/iter (+/- 106,615)
+
+n = 12
+test benchmarks::bench_recurse_at_end   ... bench: 1,302,146,866 ns/iter (+/- 2,200,806)
+test benchmarks::bench_recurse_at_start ... bench: 372,825,660 ns/iter (+/- 1,086,620)
+
+

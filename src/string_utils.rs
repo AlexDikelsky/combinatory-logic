@@ -68,3 +68,19 @@ pub fn here_to_next_paren(s: String) -> (String, Option<String>) {
     in_parens = in_parens.strip_suffix(')').expect("Unmatched paren").to_string();
     (in_parens, if found { Some(out_of_parens) } else { None } )
 }
+
+pub fn has_matching_parens(s: &str) -> bool {
+    let mut stack: usize = 0;
+
+    for c in s.chars() {
+        match c {
+            '(' => { stack += 1; },
+            ')' => match stack {
+                0 => { return false; },
+                _ => { stack -= 1; }
+            },
+            _ => {},
+        }
+    }
+    return stack == 0;
+}
