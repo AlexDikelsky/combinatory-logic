@@ -9,7 +9,7 @@ pub fn next_n_terms(n: usize, s: String) -> (Option<Vec<String>>, Option<String>
     let mut none_found = false;
     let mut i = 0;
     let default_str = s.clone();
-    let mut cloned_str = s.clone();
+    let mut cloned_str = s;
 
 
     // Loop until just before the last term
@@ -31,7 +31,7 @@ pub fn next_n_terms(n: usize, s: String) -> (Option<Vec<String>>, Option<String>
     if none_found || default_str.is_empty() {
         (None, Some(default_str))
     } else {
-        let (new_term, rest_of_str) = next_term(cloned_str.clone());
+        let (new_term, rest_of_str) = next_term(cloned_str);
         terms.push(new_term);
         assert!(terms.len() == n, "Wrong terms size");
         (Some(terms), rest_of_str)
@@ -43,11 +43,11 @@ pub fn terms_until_none(s: String) -> Vec<String> {
     let mut terms = vec![];
     let mut found = false;
 
-    let mut string_reading = s.clone();
+    let mut string_reading = s;
 
     while !found {
         let (new_term, rest_of_str) = next_term(string_reading.clone());
-        if new_term != "".to_string() {
+        if new_term != *"" {
             terms.push(new_term);
         }
 

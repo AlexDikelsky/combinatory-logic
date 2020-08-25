@@ -1,25 +1,27 @@
 use std::cmp::Ordering;
+use crate::string_utils::has_matching_parens;
 
 const COMBINATORS: [char; 3] = [
     'S', 'K', 'I',
 ];
 
-const COMB_EITHER: [char; 3] = ['S', '(', ')'];
+const COMB_EITHER: [char; 6] = ['S', 'K', 'I', '(', ')', 'B'];
 const COMB_OPEN:   [char; 2] = ['S', '('];
 const COMB_CLOSE:  [char; 2] = ['S', ')'];
 
-pub fn simple_cart_prod(n: usize) -> Vec<String> {
-    if n > 1 {
-        COMBINATORS.iter().map(|x| {
-            simple_cart_prod(n-1).into_iter() 
-                .map(|y| { y + &x.to_string() })
-            .collect::<Vec<String>>()
-        }).flatten().collect()
-    } else {
-        COMBINATORS.iter().map(|x| x.to_string()).collect()
-    }
-}
+//pub fn simple_cart_prod(n: usize) -> Vec<String> {
+//    if n > 1 {
+//        COMBINATORS.iter().map(|x| {
+//            simple_cart_prod(n-1).into_iter() 
+//                .map(|y| { y + &x.to_string() })
+//            .collect::<Vec<String>>()
+//        }).flatten().collect()
+//    } else {
+//        COMBINATORS.iter().map(|x| x.to_string()).collect()
+//    }
+//}
 
+// This is about 4 times faster than the recursive call at the end
 pub fn simple_cart_prod_tail(n: usize) -> Vec<String> {
     if n > 1 {
         simple_cart_prod_tail(n-1).into_iter().map(|y| {
@@ -31,10 +33,21 @@ pub fn simple_cart_prod_tail(n: usize) -> Vec<String> {
     }
 }
 
-//pub fn one_matched_paren(n: usize) -> Vec<(bool, String)> {
-//    if n > 1 {
-//        COMB_EITHER.iter().map(|x| {
-//
+pub fn gen_programs_brute_force_product(n: usize) -> Vec<String> {
+    if n > 1 {
+        gen_programs_brute_force_product(n-1).into_iter().map(|y| {
+            COMB_EITHER.iter().map(|x| y.clone() + &x.to_string() )
+            .collect::<Vec<String>>()
+        }).flatten().collect()
+    } else {
+        COMB_EITHER.iter().map(|x| x.to_string()).collect()
+    }
+}
+
+pub fn gen_programs_brute_force(n: usize) -> Vec<String> {
+    gen_programs_brute_force_product(n).into_iter().filter(
+        |x| has_matching_parens(&x) && !x.contains("()")).collect()
+}
 
 
  
